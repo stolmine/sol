@@ -106,6 +106,21 @@ const UNIT_ALIASES: Record<string, string> = {
 	milliliters: "ml",
 	millilitre: "ml",
 	millilitres: "ml",
+	tbs: "Tbs",
+	tbsp: "Tbs",
+	tablespoon: "Tbs",
+	tablespoons: "Tbs",
+	teaspoon: "tsp",
+	teaspoons: "tsp",
+	floz: "fl-oz",
+	cups: "cup",
+	pint: "pnt",
+	pints: "pnt",
+	pt: "pnt",
+	quart: "qt",
+	quarts: "qt",
+	gallon: "gal",
+	gallons: "gal",
 	second: "s",
 	seconds: "s",
 	sec: "s",
@@ -129,7 +144,7 @@ function offsetMinutesToUtcZone(offsetMinutes: number) {
 	return `UTC${sign}${hours}:${paddedMinutes}`;
 }
 
-function normalizeUnit(rawUnit: string) {
+export function normalizeUnit(rawUnit: string) {
 	const normalized = rawUnit.trim().toLowerCase().replace(/\s+/g, "");
 	if (UNIT_ALIASES[normalized]) {
 		return UNIT_ALIASES[normalized];
@@ -150,7 +165,7 @@ function normalizeUnit(rawUnit: string) {
 	return normalized;
 }
 
-function formatConvertedValue(value: number) {
+export function formatConvertedValue(value: number) {
 	if (!Number.isFinite(value)) {
 		return value.toString();
 	}

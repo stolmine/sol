@@ -2,6 +2,8 @@ import * as Sentry from "@sentry/react-native";
 import { Assets } from "assets";
 import { Parser } from "expr-eval";
 import { CONSTANTS } from "lib/constants";
+import { isConvQuery, parseConvQuery } from "lib/conversion";
+import { convertCurrency } from "lib/currency";
 import { solNative } from "lib/SolNative";
 import {
 	defaultShortcuts,
@@ -734,6 +736,32 @@ export const createUIStore = (root: IRootStore) => {
 			}
 
 			if (store.focusedWidget === Widget.SEARCH) {
+				if (isConvQuery(store.query)) {
+					const conversion = parseConvQuery(store.query);
+					if (conversion.kind === "result") {
+						store.temporaryResult = conversion.result;
+					} else if (conversion.kind === "currency") {
+						const querySnapshot = store.query;
+						void convertCurrency(
+							conversion.amount,
+							conversion.amountLabel,
+							conversion.from,
+							conversion.to,
+						).then((result) => {
+							if (
+								result != null &&
+								store.focusedWidget === Widget.SEARCH &&
+								store.query === querySnapshot
+							) {
+								runInAction(() => {
+									store.temporaryResult = result;
+								});
+							}
+						});
+					}
+					return;
+				}
+
 				const timezoneResult = parseTimezoneConversion(store.query);
 				if (timezoneResult != null) {
 					store.temporaryResult = timezoneResult;
