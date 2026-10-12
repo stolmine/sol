@@ -39,6 +39,25 @@ export function createBaseItems(store: IRootStore) {
 			},
 		},
 		{
+			id: "sleep_displays",
+			iconImage: Assets.SleepIcon,
+			name: "Sleep Displays",
+			alias: "screen off",
+			keywords: "displays off monitor off screen off turn off display",
+			type: ItemType.CONFIGURATION,
+			callback: () => {
+				setTimeout(async () => {
+					try {
+						await solNative.executeAppleScript(
+							'do shell script "pmset displaysleepnow"',
+						);
+					} catch (e) {
+						solNative.showToast(`Could not sleep displays: ${e}`, "error");
+					}
+				}, 500);
+			},
+		},
+		{
 			id: "restart",
 			iconImage: Assets.restart,
 			name: "Restart",
