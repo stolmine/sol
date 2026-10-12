@@ -95,14 +95,15 @@ function extractObjectFromPrefPanePath(path: string, fileName: string) {
 	};
 }
 
-const systemPanes = solNative.exists(SYSTEM_PREFERENCE_PANES)
-	? solNative
-			.ls(SYSTEM_PREFERENCE_PANES)
-			.filter((a) => a)
-			.map((pane) =>
-				extractObjectFromPrefPanePath(SYSTEM_PREFERENCE_PANES, pane),
-			)
-	: [];
+const systemPanes =
+	solNative.OSVersion < 13 && solNative.exists(SYSTEM_PREFERENCE_PANES)
+		? solNative
+				.ls(SYSTEM_PREFERENCE_PANES)
+				.filter((a) => a)
+				.map((pane) =>
+					extractObjectFromPrefPanePath(SYSTEM_PREFERENCE_PANES, pane),
+				)
+		: [];
 
 const globalPanes = solNative.exists(GLOBAL_PREFERENCE_PANES)
 	? solNative

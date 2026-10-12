@@ -1,5 +1,15 @@
 import { NativeEventEmitter, NativeModules } from "react-native";
 
+export type SettingsIndexEntry = {
+	paneId: string;
+	paneName: string;
+	anchor?: string;
+	title: string;
+	keywords: string;
+	url: string;
+	iconPath: string;
+};
+
 class SolNative extends NativeEventEmitter {
 	openFile: (path: string) => void;
 	openWithFinder: (path: string) => void;
@@ -89,6 +99,7 @@ class SolNative extends NativeEventEmitter {
 	hideNotch: () => void;
 	hasFullDiskAccess: () => Promise<boolean>;
 	getSafariBookmarks: () => Promise<any>;
+	getSettingsIndex: () => Promise<SettingsIndexEntry[]>;
 	quit: () => void;
 	setStatusBarItemTitle: (title: string) => void;
 	setMediaKeyForwardingEnabled: (enabled: boolean) => Promise<void>;
@@ -212,6 +223,7 @@ class SolNative extends NativeEventEmitter {
 		this.hideNotch = module.hideNotch;
 		this.hasFullDiskAccess = module.hasFullDiskAccess;
 		this.getSafariBookmarks = module.getSafariBookmarks;
+		this.getSettingsIndex = module.getSettingsIndex;
 
 		this.quit = module.quit;
 

@@ -407,6 +407,15 @@ class SolNative: RCTEventEmitter {
     resolve(bookmarks)
   }
 
+  @objc func getSettingsIndex(
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    rejecter _: RCTPromiseRejectBlock
+  ) {
+    SettingsIndex.shared.load { entries in
+      resolve(entries)
+    }
+  }
+
   @objc func quit() {
     DispatchQueue.main.async {
       NSApplication.shared.terminate(self)

@@ -47,6 +47,7 @@
 		70A07EBB29B48F4000D1885E /* MediaKeyForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A07EBA29B48F4000D1885E /* MediaKeyForwarder.m */; };
 		70A198FD2F8A7B9D00B36D69 /* FileSearchIndexObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A198FB2F8A7B9D00B36D69 /* FileSearchIndexObjC.swift */; };
 		70A198FE2F8A7B9D00B36D69 /* FileSearchIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A198F92F8A7B9D00B36D69 /* FileSearchIndex.swift */; };
+		70A1990B2F8A7B9D00B36D69 /* SettingsIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A1990A2F8A7B9D00B36D69 /* SettingsIndex.swift */; };
 		70A199002F8A7B9D00B36D69 /* FileSearchIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A198FA2F8A7B9D00B36D69 /* FileSearchIndexer.swift */; };
 		70A25D452D33AF4500165270 /* PanelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D442D33AF3E00165270 /* PanelManager.swift */; };
 		70A25D472D33B4D600165270 /* HotKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A25D462D33B4D300165270 /* HotKeyManager.swift */; };
@@ -126,6 +127,7 @@
 		70A07EBA29B48F4000D1885E /* MediaKeyForwarder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaKeyForwarder.m; sourceTree = "<group>"; };
 		70A07EBC29B491CF00D1885E /* MediaKeyForwarder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaKeyForwarder.h; sourceTree = "<group>"; };
 		70A198F92F8A7B9D00B36D69 /* FileSearchIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSearchIndex.swift; sourceTree = "<group>"; };
+		70A1990A2F8A7B9D00B36D69 /* SettingsIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsIndex.swift; sourceTree = "<group>"; };
 		70A198FA2F8A7B9D00B36D69 /* FileSearchIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSearchIndexer.swift; sourceTree = "<group>"; };
 		70A198FB2F8A7B9D00B36D69 /* FileSearchIndexObjC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSearchIndexObjC.swift; sourceTree = "<group>"; };
 		70A25D442D33AF3E00165270 /* PanelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelManager.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				70A198F92F8A7B9D00B36D69 /* FileSearchIndex.swift */,
 				70A198FA2F8A7B9D00B36D69 /* FileSearchIndexer.swift */,
 				70A198FB2F8A7B9D00B36D69 /* FileSearchIndexObjC.swift */,
+				70A1990A2F8A7B9D00B36D69 /* SettingsIndex.swift */,
 				7062E8342EA5331D008A9B69 /* FolderWatcherJSI.h */,
 				7062E8322EA53311008A9B69 /* FolderWatcherJSI.mm */,
 				706ABFAA2E059FC2000C0F30 /* KeyboardShortcutRecorder.swift */,
@@ -625,6 +628,7 @@
 				70AAC12029F7AB9B004AD3E7 /* GradientView.m in Sources */,
 				70A198FD2F8A7B9D00B36D69 /* FileSearchIndexObjC.swift in Sources */,
 				70A198FE2F8A7B9D00B36D69 /* FileSearchIndex.swift in Sources */,
+				70A1990B2F8A7B9D00B36D69 /* SettingsIndex.swift in Sources */,
 				70A199002F8A7B9D00B36D69 /* FileSearchIndexer.swift in Sources */,
 				70A25D472D33B4D600165270 /* HotKeyManager.swift in Sources */,
 				700A18D8279DBBE40096C830 /* ApplicationSearcher.swift in Sources */,

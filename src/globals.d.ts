@@ -139,6 +139,7 @@ type Item = {
 	localizedName?: string;
 	alias?: string;
 	subName?: string;
+	keywords?: string;
 	callback?: () => void;
 	metaCallback?: () => void;
 	isApplescript?: boolean;

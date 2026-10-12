@@ -35,6 +35,7 @@ import {
 	readPersistedUIState,
 	writePersistedUIState,
 } from "./persisted-config";
+import { loadSettingsIndexItems, settingsDocumentBoost } from "./settingsIndex";
 import {
 	createTextTemporaryResult,
 	fetchFlightInfoFromWeb,
@@ -93,8 +94,16 @@ export enum ScratchPadColor {
 	ORANGE = "ORANGE",
 }
 
+const tokenize = (text: string) =>
+	text
+		.normalize("NFC")
+		.toLowerCase()
+		.split(/[\s.-]+/);
+
+const PARTIAL_MATCH_PENALTY = 0.1;
+
 const minisearch = new MiniSearch({
-	fields: ["name", "localizedName", "alias", "type"],
+	fields: ["name", "localizedName", "alias", "type", "keywords"],
 	storeFields: [
 		"name",
 		"localizedName",
@@ -118,11 +127,7 @@ const minisearch = new MiniSearch({
 		"bookmarkFolder",
 		"faviconFallback",
 	],
-	tokenize: (text: string) =>
-		text
-			.normalize("NFC")
-			.toLowerCase()
-			.split(/[\s.-]+/),
+	tokenize,
 });
 
 const userName = solNative.userName();
@@ -443,6 +448,7 @@ export const createUIStore = (root: IRootStore) => {
 		disabledItemIds: [] as string[],
 		editingCustomItem: null as Item | null,
 		apps: [] as Item[],
+		settingsItems: [] as Item[],
 		isLoading: false,
 		isIndexing: false,
 		indexedFileResults: [] as Item[],
@@ -516,6 +522,7 @@ export const createUIStore = (root: IRootStore) => {
 			const allItems = [
 				...store.apps,
 				...baseItems,
+				...store.settingsItems,
 				...store.customItems,
 				...root.scripts.scripts,
 				...(store.showInAppBrowserBookMarks ? store.bookmarks : []),
@@ -539,12 +546,19 @@ export const createUIStore = (root: IRootStore) => {
 			const results = minisearch.search(store.query, {
 				boost: {
 					name: 2,
+					keywords: 0.3,
 				},
+				boostDocument: settingsDocumentBoost,
 				prefix: true,
 				fuzzy: true,
-			}) as unknown as RankedItem[];
+			}) as unknown as Array<RankedItem & { queryTerms: string[] }>;
+			const queryTermCount = new Set(tokenize(store.query).filter(Boolean))
+				.size;
 			for (const result of results) {
 				result.matchTier = getMatchTier(result);
+				if (result.queryTerms.length < queryTermCount) {
+					result.score = (result.score ?? 0) * PARTIAL_MATCH_PENALTY;
+				}
 			}
 
 			results.sort(compareRankedItems);
@@ -889,6 +903,16 @@ export const createUIStore = (root: IRootStore) => {
 				store.updateApps(apps);
 			});
 		},
+		getSettingsItems: async () => {
+			try {
+				const settingsItems = await loadSettingsIndexItems();
+				runInAction(() => {
+					store.settingsItems = settingsItems;
+				});
+			} catch (e) {
+				Sentry.captureException(e);
+			}
+		},
 		onShow: ({ target }: { target?: string }) => {
 			store.getApps();
 			store.isVisible = true;
@@ -1179,6 +1203,7 @@ export const createUIStore = (root: IRootStore) => {
 			const item = [
 				...store.apps,
 				...baseItems,
+				...store.settingsItems,
 				...store.customItems,
 				...root.scripts.scripts,
 				...(store.showInAppBrowserBookMarks ? store.bookmarks : []),
@@ -1353,6 +1378,7 @@ export const createUIStore = (root: IRootStore) => {
 		store.getCalendarAccess();
 		store.getAccessibilityStatus();
 		store.getFullDiskAccessStatus();
+		store.getSettingsItems();
 		solNative.setUpcomingEventEnabled(
 			store.showUpcomingEvent && store.calendarEnabled,
 		);
